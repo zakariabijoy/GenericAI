@@ -11,6 +11,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.MapDefaultEndpoints();
 
+app.UseMigration();
+
 app.UseHttpsRedirection();
 
 var summaries = new[]
