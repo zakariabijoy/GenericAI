@@ -7,7 +7,7 @@ public class ProductService(ProductDbContext dbContext)
         return await dbContext.Products.ToListAsync();
     }
 
-    public async Task<Product?> GetProductByIdAsync(Guid id)
+    public async Task<Product?> GetProductByIdAsync(int id)
     {
         return await dbContext.Products.FindAsync(id);
     }
