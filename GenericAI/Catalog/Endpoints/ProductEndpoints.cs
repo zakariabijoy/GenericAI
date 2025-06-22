@@ -1,6 +1,4 @@
-﻿using Catalog.Services;
-
-namespace Catalog.Endpoints;
+﻿namespace Catalog.Endpoints;
 
 public static class ProductEndpoints
 {

@@ -1,6 +1,4 @@
 
-using Catalog.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +13,8 @@ var app = builder.Build();
 app.MapDefaultEndpoints();
 
 app.UseMigration();
+
+app.MapProductEndpoints();
 
 app.UseHttpsRedirection();
 
