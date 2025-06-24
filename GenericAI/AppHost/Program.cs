@@ -16,4 +16,7 @@ var catalog = builder
         .WaitFor(catalogDb);
 
 
+builder.AddProject<Projects.Basket>("basket");
+
+
 builder.Build().Run();
