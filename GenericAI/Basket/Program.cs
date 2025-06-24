@@ -4,6 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.AddRedisDistributedCache(connectionName: "cache");
 
+builder.Services.AddScoped<BasketService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
