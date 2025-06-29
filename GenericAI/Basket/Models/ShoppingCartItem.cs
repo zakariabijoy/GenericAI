@@ -8,5 +8,5 @@ public class ShoppingCartItem
 
     // will come from Catalog module
     public decimal Price { get; set; } = default!;
-    public int ProductName { get; set; } = default!;
+    public string ProductName { get; set; } = default!;
 }
