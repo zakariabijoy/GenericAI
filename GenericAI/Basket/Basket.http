@@ -23,6 +23,13 @@ content-type: application/json
       "Color": "Blue",
       "Price": 0,
       "ProductName": "Hiking Poles"
+    },
+    {
+      "ProductId": 9,
+      "Quantity": 5,
+      "Color": "Blue",
+      "Price": 0,
+      "ProductName": "Camping Tent"
     }
   ]
 }
