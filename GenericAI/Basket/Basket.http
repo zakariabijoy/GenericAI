@@ -14,14 +14,14 @@ content-type: application/json
       "ProductId": 1,
       "Quantity": 2,
       "Color": "Red",
-      "Price": 500.00,
+      "Price": 0,
       "ProductName": "Solar Powered Flashlight"
     },
     {
       "ProductId": 2,
       "Quantity": 1,
       "Color": "Blue",
-      "Price": 500.00,
+      "Price": 0,
       "ProductName": "Hiking Poles"
     }
   ]
