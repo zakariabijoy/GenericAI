@@ -30,4 +30,19 @@ public class BasketService(IDistributedCache cache, CatalogApiClient catalogApiC
     {
         await cache.RemoveAsync(userName);
     }
+
+    internal async Task UpdateBasketItemProductPrices(int productId, decimal price)
+    {
+        // IDistributedCache not supported list of keys function
+        // https://github.com/dotnet/runtime/issues/36402
+
+        var basket = await GetBasketAsync("swn");
+
+        var item = basket!.Items.FirstOrDefault(i => i.ProductId == productId);
+        if (item != null)
+        {
+            item.Price = price;
+            await cache.SetStringAsync(basket!.UserName, JsonSerializer.Serialize(basket));
+        }
+    }
 }
