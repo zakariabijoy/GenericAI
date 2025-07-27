@@ -27,7 +27,6 @@ public static class MassTransitExtensions
 
                 cfg.Host(connectionString);
                 cfg.ConfigureEndpoints(context);
-
             });
         });
         return services;
