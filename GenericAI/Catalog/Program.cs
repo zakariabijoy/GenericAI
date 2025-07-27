@@ -6,6 +6,7 @@ builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<ProductDbContext>(connectionName: "catalogDb");
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddMassTransitWithAssemblies(Assembly.GetExecutingAssembly());  
 
 var app = builder.Build();
 
