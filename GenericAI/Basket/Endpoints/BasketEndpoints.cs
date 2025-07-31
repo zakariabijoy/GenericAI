@@ -13,7 +13,8 @@ public static class BasketEndpoints
         })
         .WithName("GetBasket")
         .Produces<ShoppingCart>(StatusCodes.Status200OK)
-        .Produces<ShoppingCart>(StatusCodes.Status404NotFound);
+        .Produces<ShoppingCart>(StatusCodes.Status404NotFound)
+        .RequireAuthorization();
 
         group.MapPost("/", async (ShoppingCart shoppingCart, BasketService basketService) =>
         {
@@ -21,7 +22,8 @@ public static class BasketEndpoints
             return Results.Created("GetBasket", shoppingCart);
         })
         .WithName("UpdateBasket")
-        .Produces<ShoppingCart>(StatusCodes.Status201Created);
+        .Produces<ShoppingCart>(StatusCodes.Status201Created)
+        .RequireAuthorization();
 
         group.MapDelete("/{userName}", async (string userName, BasketService basketService) =>
         {
@@ -29,6 +31,7 @@ public static class BasketEndpoints
             return Results.NoContent();
         })
         .WithName("DeleteBasket")
-        .Produces<ShoppingCart>(StatusCodes.Status204NoContent);
+        .Produces<ShoppingCart>(StatusCodes.Status204NoContent)
+        .RequireAuthorization();
     }
 }

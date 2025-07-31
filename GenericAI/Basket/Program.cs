@@ -13,9 +13,25 @@ builder.Services.AddHttpClient<CatalogApiClient>(client =>
    client.BaseAddress = new ("https+http://catalog");
 });
 
+builder.Services.AddAuthentication()
+    .AddKeycloakJwtBearer(
+        serviceName: "keyclock",
+        realm: "GenericAI",
+        configureOptions: options =>
+        {
+            options.RequireHttpsMetadata = false;
+            options.Audience = "account";
+        }
+    );
+builder.Services.AddAuthentication();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapDefaultEndpoints();
 app.MapBasketEndpoints();
 
