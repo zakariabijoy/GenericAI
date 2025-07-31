@@ -40,3 +40,8 @@ DELETE {{Basket_HostAddress}}/swn
 content-type: application/json
 
 ###
+
+POST http://localhost:8080/realms/GenericAI/protocol/openid-connect/token
+content-type: application/x-www-form-urlencoded
+
+grant_type=password&client_id=GenericAI-Client&scope=email openid&username=test&password=1234
