@@ -23,7 +23,7 @@ builder.Services.AddAuthentication()
             options.Audience = "account";
         }
     );
-builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
