@@ -15,10 +15,14 @@ builder.Services.AddHttpClient<CatalogApiClient>(client =>
     client.BaseAddress = new("https+http://catalog");
 });
 
+builder.AddRedisOutputCache("cache");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.MapDefaultEndpoints();
+
+app.UseOutputCache();
 
 if (!app.Environment.IsDevelopment())
 {
