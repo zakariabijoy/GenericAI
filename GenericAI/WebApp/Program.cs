@@ -1,4 +1,3 @@
-using WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +6,11 @@ builder.AddServiceDefaults();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddHttpClient<CatalogApiClient>(client =>
+{
+    client.BaseAddress = new("https+http://catalog");
+});
 
 var app = builder.Build();
 
@@ -21,7 +25,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 
