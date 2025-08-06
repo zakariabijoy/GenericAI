@@ -6,6 +6,7 @@ builder.AddServiceDefaults();
 
 builder.AddNpgsqlDbContext<ProductDbContext>(connectionName: "catalogDb");
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ProductAIService>();
 builder.Services.AddMassTransitWithAssemblies(Assembly.GetExecutingAssembly());
 
 builder.AddOllamaSharpChatClient(connectionName: "ollama-llama3-2");
