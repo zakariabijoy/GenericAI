@@ -1,4 +1,6 @@
-﻿namespace Catalog.Endpoints;
+﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
+namespace Catalog.Endpoints;
 
 public static class ProductEndpoints
 {
@@ -59,5 +61,14 @@ public static class ProductEndpoints
         .WithName("DeleteProduct")
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound);
+
+        // Support AI
+        group.MapGet("/support/{query}", async (string query, ProductAIService productAIService) =>
+        {
+            var response = await productAIService.StringAsync(query);
+            return Results.Ok(response);
+        })
+        .WithName("Support")
+        .Produces(StatusCodes.Status200OK);
     }
 }
