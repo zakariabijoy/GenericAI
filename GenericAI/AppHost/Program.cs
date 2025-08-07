@@ -39,6 +39,7 @@ var ollama = builder
         .WithOpenWebUI();
 
 var llama = ollama.AddModel("llama3.2");
+var embedding = ollama.AddModel("all-minilm");
 
 //Projects
 var catalog = builder
@@ -46,9 +47,11 @@ var catalog = builder
         .WithReference(catalogDb)
         .WithReference(rabbitMq)
         .WithReference(llama)
+        .WithReference(embedding)
         .WaitFor(catalogDb)
         .WaitFor(rabbitMq)
-        .WaitFor(llama);
+        .WaitFor(llama)
+        .WaitFor(embedding);
 
 var basket = builder
         .AddProject<Projects.Basket>("basket")
