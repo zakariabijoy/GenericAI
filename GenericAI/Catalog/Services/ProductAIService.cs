@@ -25,4 +25,11 @@ public class ProductAIService(IChatClient chatClient)
         var response = await chatClient.GetResponseAsync(chatHistory);
         return response.Text;
     }
+
+    public async Task<IEnumerable<Product>> SearchProductsAsync(string query)
+    {
+        // use EmbeddingGenerator
+        // use InMemoryVectorStore
+        // Provide semantic search
+    }
 }
