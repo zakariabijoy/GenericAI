@@ -57,7 +57,7 @@ public class ProductService(ProductDbContext dbContext, IBus bus)
     public async Task<IEnumerable<Product>> SearchProductAsync(string query)
     {
         return await dbContext.Products
-            .Where(p => p.Name.Contains(query))
+            .Where(p => p.Name.ToLower().Contains(query.ToLower()))
             .ToListAsync();
     }
 }
