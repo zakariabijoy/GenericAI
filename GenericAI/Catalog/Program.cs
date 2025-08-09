@@ -9,7 +9,8 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ProductAIService>();
 builder.Services.AddMassTransitWithAssemblies(Assembly.GetExecutingAssembly());
 
-builder.AddOllamaSharpChatClient(connectionName: "ollama-llama3-2");
+builder.AddOllamaApiClient(connectionName: "ollama-llama3-2")
+       .AddChatClient();
 
 var app = builder.Build();
 

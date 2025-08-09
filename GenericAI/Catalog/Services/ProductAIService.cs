@@ -22,7 +22,7 @@ public class ProductAIService(IChatClient chatClient)
             new ChatMessage(ChatRole.User, query)
         };
 
-        var resultPrompt = await chatClient.GetResponseAsync(chatHistory);
-        return resultPrompt.Text;
+        var response = await chatClient.GetResponseAsync(chatHistory);
+        return response.Text;
     }
 }
