@@ -9,7 +9,7 @@ public class ProductAIService(
     IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
     VectorStoreCollection<int, ProductVector> productVectorCollection)
 {
-    public async Task<string> StringAsync(string query)
+    public async Task<string> SupportAsync(string query)
     {
         var systemPrompt = """
         You are a useful assistant. 
