@@ -1,5 +1,6 @@
 
 using Microsoft.SemanticKernel;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +19,20 @@ builder.AddOllamaApiClient(connectionName: "ollama-llama3-2")
 builder.AddOllamaApiClient(connectionName: "ollama-all-minilm")
        .AddEmbeddingGenerator();
 
+// Register an pg vector store for semantic search
+builder.Services.AddSingleton<NpgsqlDataSource>(sp =>
+{
+    NpgsqlDataSourceBuilder dataSourceBuilder = new("Host=localhost;Port=5434;Username=postgres;Password=password;Database=vactordbtest;");
+    dataSourceBuilder.UseVector();
+    return dataSourceBuilder.Build();
+});
+
+builder.Services.AddPostgresVectorStore();
+builder.Services.AddPostgresCollection<int, ProductVector>("products");
+
 // Register an in-memory vector store for semantic search
 builder.Services.AddInMemoryVectorStoreRecordCollection<int, ProductVector>("products");
+
 
 var app = builder.Build();
 

@@ -88,5 +88,13 @@ public static class ProductEndpoints
         })
        .WithName("AISearchProducts")
        .Produces<List<Product>>(StatusCodes.Status200OK);
+
+        group.MapGet("/aisearchpg/{query}", async (string query, ProductAIService productAIService) =>
+        {
+            var response = await productAIService.SearchProductsPgVectorAsync(query);
+            return Results.Ok(response);
+        })
+      .WithName("AISearchProductsPgVector")
+      .Produces<List<Product>>(StatusCodes.Status200OK);
     }
 }

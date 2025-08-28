@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.AI;
 using Microsoft.Extensions.VectorData;
+using Microsoft.SemanticKernel.Connectors.PgVector;
 
 namespace Catalog.Services;
 
@@ -7,7 +8,8 @@ public class ProductAIService(
     ProductDbContext dbContext, 
     IChatClient chatClient,
     IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
-    VectorStoreCollection<int, ProductVector> productVectorCollection)
+    VectorStoreCollection<int, ProductVector> productVectorCollection, 
+    PostgresCollection<int, ProductVector> productPostgresCollection)
 {
     public async Task<string> SupportAsync(string query)
     {
@@ -62,6 +64,37 @@ public class ProductAIService(
         return products;
     }
 
+    public async Task<IEnumerable<Product>> SearchProductsPgVectorAsync(string query)
+    {
+        if (!await productPostgresCollection.CollectionExistsAsync())
+            await InitEmbeddingsPgVectorAsync();
+
+        var queryEmbedding = await embeddingGenerator.GenerateVectorAsync(query);
+
+        var vectorSearchOptions = new VectorSearchOptions<ProductVector>()
+        {
+            VectorProperty = x => x.Vector,
+        };
+
+        var results = productPostgresCollection.SearchAsync(queryEmbedding, 1, vectorSearchOptions);
+
+        var products = new List<Product>();
+        await foreach (var result in results)
+        {
+            if (result.Record != null)
+                products.Add(new Product
+                {
+                    Id = result.Record.Id,
+                    Name = result.Record.Name,
+                    Description = result.Record.Description,
+                    Price = result.Record.Price,
+                    ImageUrl = result.Record.ImageUrl
+                });
+        }
+
+        return products;
+    }
+
     private async Task InitEmbeddingsAsync()
     {
         await productVectorCollection.EnsureCollectionExistsAsync();
@@ -81,6 +114,28 @@ public class ProductAIService(
                 Vector = await embeddingGenerator.GenerateVectorAsync(productInfo)
             };
             await productVectorCollection.UpsertAsync(productVector);
+        }
+    }
+
+    private async Task InitEmbeddingsPgVectorAsync()
+    {
+        await productPostgresCollection.EnsureCollectionExistsAsync();
+
+        var products = await dbContext.Products.ToListAsync();
+        foreach (var product in products)
+        {
+            var productInfo = $"[{product.Name}] is a product that cost [{product.Price}] and described is [{product.Description}]";
+
+            var productVector = new ProductVector
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                ImageUrl = product.ImageUrl,
+                Vector = await embeddingGenerator.GenerateVectorAsync(productInfo)
+            };
+            await productPostgresCollection.UpsertAsync(productVector);
         }
     }
 }

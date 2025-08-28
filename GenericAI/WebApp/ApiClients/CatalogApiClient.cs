@@ -29,4 +29,12 @@ public class CatalogApiClient(HttpClient httpClient)
         else
             return await httpClient.GetFromJsonAsync<List<Product>>($"/products/search/{query}") ?? [];
     }
+
+    public async Task<List<Product>> SearchPgProducts(string query, bool aiSearch)
+    {
+        if (aiSearch)
+            return await httpClient.GetFromJsonAsync<List<Product>>($"/products/aisearchpg/{query}") ?? [];
+        else
+            return await httpClient.GetFromJsonAsync<List<Product>>($"/products/search/{query}") ?? [];
+    }
 }

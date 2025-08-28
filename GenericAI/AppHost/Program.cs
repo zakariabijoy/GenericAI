@@ -20,7 +20,7 @@ var rabbitMq = builder
         .WithLifetime(ContainerLifetime.Persistent);
 
 var keycloak = builder
-        .AddKeycloak("keycloak", 8080)
+        .AddKeycloak("keycloak", 7001)
         .WithLifetime(ContainerLifetime.Persistent);
 
 if (builder.ExecutionContext.IsRunMode)
